@@ -46,7 +46,7 @@ const CMD_ACEINFO_COMPLETE = "ACEC";   // Command that indicates that the  ACE i
 replication {
 
   reliable if (role != ROLE_SimulatedProxy) // Replicate to client...
-    fixCHScaling, ACEInfoFailed, ACEInfoRequested, updateACESettings;
+    fixCHScaling, ACEInfoFailed, ACEInfoRequested, updateACESettings, showACEConfig;
 
   reliable if (role == ROLE_SimulatedProxy) // Replicate to server...
     requestACEInfo, requestACEShot;
@@ -235,6 +235,12 @@ simulated function ACEInfoRequested() { if(ACEPanel != none) ACEPanel.ACEInfoReq
 
 simulated function updateACESettings() {
   setTimer(0.5, false);
+}
+
+simulated function showACEConfig() {
+  if(ACEClientConfigPanel != none) {
+    client.showPanel(class'NexgenACEExtClientConfig'.default.panelIdentifier);
+  }
 }
 
 /***************************************************************************************************

@@ -112,7 +112,7 @@ function ACEInfoReceived() {
   infoArea.addText("ACE INFO FOR"@xClient.PlayerName);
   infoArea.addText("");
   infoArea.addText("Time:"@Class'NexgenUtil'.static.serializeDate(xClient.level.year, xClient.level.month, xClient.level.day, xClient.level.hour, xClient.level.minute));
-  infoArea.addText("ACE Version: BETA"@Class'IACECommon'.default.ACEVersion);
+  infoArea.addText("ACE Version:"@Class'IACECommon'.default.ACEVersion);
   infoArea.addText("---------------------------------------------");
 	infoArea.addText("PlayerName:"@xClient.PlayerName);
 	infoArea.addText("PlayerIP:"@xClient.PlayerIP);

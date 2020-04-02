@@ -115,6 +115,41 @@ function mutate(string mutateString, PlayerPawn sender) {
 
 /***************************************************************************************************
  *
+ *  $DESCRIPTION  Handles a potential command message.
+ *  $PARAM        sender  PlayerPawn that has send the message in question.
+ *  $PARAM        msg     Message send by the player, which could be a command.
+ *  $REQUIRE      sender != none
+ *  $RETURN       True if the specified message is a command, false if not.
+ *  $OVERRIDE
+ *
+ **************************************************************************************************/
+function bool handleMsgCommand(PlayerPawn sender, string msg) {
+	local string cmd;
+	local bool bIsCommand;
+  local NexgenClient client;
+	local NexgenACEExtClient xClient;
+  
+  client = control.getClient(sender);
+  if(client != none) xClient = NexgenACEExtClient(client.getController(class'NexgenACEExtClient'.default.ctrlID));
+  
+	cmd = class'NexgenUtil'.static.trim(msg);
+	bIsCommand = true;
+	switch (cmd) {
+		case "!ace":
+			if (xClient != none && xClient.client.bInitialized) {
+				xClient.showACEConfig();
+        return true;
+			} else client.showMsg("<C00>Command requires initialisation!");
+		break;
+
+		// Not a command.
+		default: bIsCommand = false;
+	}
+
+	return bIsCommand;
+}
+/***************************************************************************************************
+ *
  *  Below are fixed functions for the Empty String TCP bug. Check out this article to read more
  *  about it: http://www.unrealadmin.org/forums/showthread.php?t=31280
  *
