@@ -2,6 +2,7 @@ class NexgenACEExtClient extends NexgenExtendedClientController;
 
 // References
 var NexgenACEExtAdminPanel ACEPanel;   // The ACE Admin Panel
+var NexgenACEExtClientConfig ACEClientConfigPanel;
 var IACECheck playerCheck;             // The ACE Check actor for this client
 var IACEConfigFile ACEConfig;
 var ChallengeHUD HUD;
@@ -45,7 +46,7 @@ const CMD_ACEINFO_COMPLETE = "ACEC";   // Command that indicates that the  ACE i
 replication {
 
   reliable if (role != ROLE_SimulatedProxy) // Replicate to client...
-    fixCHScaling, ACEInfoFailed, ACEInfoRequested;
+    fixCHScaling, ACEInfoFailed, ACEInfoRequested, updateACESettings;
 
   reliable if (role == ROLE_SimulatedProxy) // Replicate to server...
     requestACEInfo, requestACEShot;
@@ -70,11 +71,15 @@ simulated function clientInitialized() {
  *
  **************************************************************************************************/
 simulated function setupControlPanel() {
-  local NexgenACEExtClientConfig clientPanel;
   
   // Spawn ACE Panel
   if (client.hasRight(client.R_Moderate)) {
 		ACEPanel = NexgenACEExtAdminPanel(client.mainWindow.mainPanel.addPanel("ACE Admin", class'NexgenACEExtAdminPanel', , "game"));
+  }
+  
+  // Change client config in case of v469
+  if(int(Level.EngineVersion) >= 469) {
+    class'NexgenACEExtClientConfig'.default.panelHeight -= 20;
   }
 }
 
@@ -116,9 +121,12 @@ simulated function Timer() {
       // Spawn client config
       foreach client.player.getEntryLevel().AllActors(class'IACEConfigFile', ACEConfig) {
         client.addPluginClientConfigPanel(class'NexgenACEExtClientConfig');
+        ACEClientConfigPanel = NexgenACEExtClientConfig(client.mainWindow.mainPanel.getPanel(class'NexgenACEExtClientConfig'.default.panelIdentifier));
         setTimer(0.0, false);
         break;
       }
+    } else if(ACEClientConfigPanel != none) {
+      ACEClientConfigPanel.setValues();
     }
   }
 }
@@ -224,6 +232,10 @@ function requestACEShot(int Num) {
 
 simulated function ACEInfoFailed()    { if(ACEPanel != none) ACEPanel.ACEInfoFailed();    }
 simulated function ACEInfoRequested() { if(ACEPanel != none) ACEPanel.ACEInfoRequested(); }
+
+simulated function updateACESettings() {
+  setTimer(0.5, false);
+}
 
 /***************************************************************************************************
  *

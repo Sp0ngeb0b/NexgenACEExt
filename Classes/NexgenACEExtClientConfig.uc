@@ -7,6 +7,10 @@ var UWindowCheckbox perfModeInp;
 var UWindowCheckbox soundFixInp;
 var UWindowComboControl timingModeList;
 var NexgenEditControl timingModeEdit;
+var UWindowComboControl scalingList;
+var NexgenEditControl scalingEdit;
+var UWindowComboControl demoList;
+var NexgenEditControl xOffsetEdit, yOffsetEdit;
 
 var bool bSetValuesCalled;
 
@@ -31,27 +35,53 @@ function setContent() {
 	splitRegionH(1, defaultComponentDist);
 	addComponent(class'NexgenDummyComponent');
   
-  splitRegionH(20, defaultComponentDist);
-  soundFixInp = addCheckBox(TA_Left, "Activate Sound Fix", true);
+  if(int(client.player.Level.EngineVersion) < 469) {
+    splitRegionH(20, defaultComponentDist);
+    soundFixInp = addCheckBox(TA_Left, "Activate Sound Fix", true);
+  }
   splitRegionH(20, defaultComponentDist);
   perfModeInp = addCheckBox(TA_Left, "Activate High Performance Mode (framerate stabilization, only for high end pcs)", true);
   splitRegionH(20, defaultComponentDist);
-  splitRegionV(256, defaultComponentDist);
+  splitRegionV(376, defaultComponentDist);
   region = currRegion++;
-  addLabel("Timing Mode", true, TA_Left);
-  splitRegionV(128, defaultComponentDist);
+  addLabel("Timing Mode (change in case of performance problems, not recommended)", true, TA_Left);
+  splitRegionV(104, defaultComponentDist);
   timingModeList = addListCombo();
   timingModeEdit = addEditBox();
   
   selectRegion(region);
   selectRegion(splitRegionH(20, defaultComponentDist));
-  splitRegionV(128, defaultComponentDist);
+  splitRegionV(376, defaultComponentDist);
   region = currRegion++;
-  addLabel("Crosshair Scale", true, TA_Left);
+  addLabel("Crosshair Scale (Auto scales dynamically with resolution, fixed does not)", true, TA_Left);
+  splitRegionV(92, defaultComponentDist);
+  scalingList = addListCombo();
+  scalingEdit = addEditBox();
   
+  selectRegion(region);
+  selectRegion(splitRegionH(20, defaultComponentDist));
+  splitRegionV(376, defaultComponentDist);
+  region = currRegion++;
+  addLabel("Display demo recording status", true, TA_Left);
+  demoList = addListCombo();
+  
+  selectRegion(region);
+  selectRegion(splitRegionH(20, defaultComponentDist));
+  splitRegionV(376, defaultComponentDist);
+  region = currRegion++;
+  addLabel("Demo recording status offset", true, TA_Left);
+  splitRegionV(16, defaultComponentDist);
+  addLabel("X:", true, TA_Right);
+  splitRegionV(40, defaultComponentDist);
+  xOffsetEdit = addEditBox();
+  splitRegionV(16, defaultComponentDist);
+  addLabel("Y:", true, TA_Right);
+  splitRegionV(40, defaultComponentDist);
+  yOffsetEdit = addEditBox();
+
 	// Configure components.
 	perfModeInp.register(self);
-	soundFixInp.register(self);
+	if(soundFixInp != none) soundFixInp.register(self);
   timingModeList.register(self);
   timingModeList.addItem("Default Mode", "0");
   timingModeList.addItem("Compatibility Mode", "1");
@@ -59,7 +89,25 @@ function setContent() {
   timingModeEdit.register(self);
   timingModeEdit.setMaxLength(1);
   timingModeEdit.setNumericOnly(true);
-
+  scalingList.register(self);
+  scalingList.addItem("Auto", "0");
+  scalingList.addItem("Fixed", "1");
+  scalingEdit.register(self);
+  scalingEdit.setMaxLength(3);
+  scalingEdit.setNumericOnly(true);
+  scalingEdit.setNumericFloat(true);
+  demoList.register(self);
+  demoList.addItem("Always (filename format)", "0");
+  demoList.addItem("Always (yes/no format)", "1");
+  demoList.addItem("When recording (filename format)", "2");
+  demoList.addItem("When recording (yes/no format)", "3");
+  demoList.addItem("Never", "3");
+  xOffsetEdit.register(self);
+  xOffsetEdit.setNumericOnly(true);
+  xOffsetEdit.setMaxLength(4);
+  yOffsetEdit.register(self);
+  yOffsetEdit.setNumericOnly(true);
+  yOffsetEdit.setMaxLength(4);
   setValues();
 }
 
@@ -81,7 +129,7 @@ function notify(UWindowDialogControl control, byte eventType) {
     ACEConfig.SetConfigVariable("bForceHighPerf", CVAR_BOOL, string(perfModeInp.bChecked));
     ACEConfig.WriteConfig(".");
     client.showMsg("<C07>Changes will take effect after a reconnect.");
-  } else if (eventType == DE_Click && control == soundFixInp) {
+  } else if (soundFixInp != none && eventType == DE_Click && control == soundFixInp) {
     client.player.consoleCommand("mutate ACE SFToggle");
   } else if(control == timingModeList && eventType == DE_Change && !bSetValuesCalled) {
     index = timingModeList.getSelectedIndex();
@@ -100,6 +148,21 @@ function notify(UWindowDialogControl control, byte eventType) {
     ACEConfig.WriteConfig(".");
     setValues();
     client.showMsg("<C07>Changes will take effect after a reconnect.");      
+  } else if(control == scalingList && eventType == DE_Change && !bSetValuesCalled) {
+    if(scalingList.getSelectedIndex() == 0) {
+      client.player.consoleCommand("mutate ACE CrosshairScale auto");
+    } else {
+      scalingEdit.setDisabled(false);
+    }
+  } else if(control == scalingEdit && eventType == DE_EnterPressed) {
+    client.player.consoleCommand("mutate ACE CrosshairScale "$scalingEdit.getValue());
+  } else if(control == demoList && eventType == DE_Change && !bSetValuesCalled) {
+    client.player.consoleCommand("mutate ACE SetDemoStatus "$demoList.getSelectedIndex());
+  } else if( (control == xOffsetEdit || control == yOffsetEdit) && eventType == DE_EnterPressed) {
+    ACEConfig.SetConfigVariable("DemoStatusXOffset", CVAR_INT, xOffsetEdit.getValue());
+    ACEConfig.SetConfigVariable("DemoStatusYOffset", CVAR_INT, yOffsetEdit.getValue());
+    ACEConfig.WriteConfig(".");
+    client.showMsg("<C07>Changes will take effect after a reconnect.");
   }
 }
 
@@ -110,10 +173,11 @@ function notify(UWindowDialogControl control, byte eventType) {
  **************************************************************************************************/
 function setValues() {
   local int timingMode;
+  local float scaling;
 
   bSetValuesCalled = true;
 	perfModeInp.bChecked = bool(ACEConfig.QueryConfigVariable("bForceHighPerf", ACEConfig.ConfigVariableType.CVAR_BOOL, false));
-  soundFixInp.bChecked = !bool(ACEConfig.QueryConfigVariable("bDisableSoundFix", ACEConfig.ConfigVariableType.CVAR_BOOL, false));
+  if(soundFixInp != none) soundFixInp.bChecked = !bool(ACEConfig.QueryConfigVariable("bDisableSoundFix", ACEConfig.ConfigVariableType.CVAR_BOOL, false));
   
   timingMode = int(ACEConfig.QueryConfigVariable("TimingMode", ACEConfig.ConfigVariableType.CVAR_INT, false));
   timingModeEdit.setValue(string(timingMode));
@@ -133,6 +197,23 @@ function setValues() {
       timingModeEdit.setDisabled(false);
       break;
   }
+  
+  scaling = float(ACEConfig.QueryConfigVariable("CrosshairScale", ACEConfig.ConfigVariableType.CVAR_FLOAT, false));
+  scalingEdit.setValue(Left(string(scaling), 3));
+  if(scaling == -1.0) {
+    scalingList.setSelectedIndex(0);
+    scalingEdit.setValue("1.0");
+    scalingEdit.setDisabled(true);
+  } else {
+    scalingList.setSelectedIndex(1);
+    scalingEdit.setDisabled(false);
+  }
+  
+  demoList.setSelectedIndex(int(ACEConfig.QueryConfigVariable("DemoStatusMode", ACEConfig.ConfigVariableType.CVAR_INT, false)));
+
+  xOffsetEdit.setValue(ACEConfig.QueryConfigVariable("DemoStatusXOffset", ACEConfig.ConfigVariableType.CVAR_INT, false));
+  yOffsetEdit.setValue(ACEConfig.QueryConfigVariable("DemoStatusYOffset", ACEConfig.ConfigVariableType.CVAR_INT, false));
+
   bSetValuesCalled = false;
 }
 
@@ -145,5 +226,5 @@ function setValues() {
 defaultproperties
 {
      panelIdentifier="NexgenACEExtClientConfig"
-     PanelHeight=128.000000
+     PanelHeight=160.000000
 }

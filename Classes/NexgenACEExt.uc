@@ -92,6 +92,29 @@ function ACEInfoReceived(NexgenACEExtClient xClient) {
 
 /***************************************************************************************************
  *
+ *  $DESCRIPTION  Hooked into the mutator chain to detect Nexgen actions issued by the clients. If
+ *                a Nexgen command is detected it will be parsed and send to the execCommand()
+ *                function.
+ *  $PARAM        mutateString  Mutator specific string (indicates the action to perform).
+ *  $PARAM        sender        Player that has send the message.
+ *  $OVERRIDE
+ *
+ **************************************************************************************************/
+function mutate(string mutateString, PlayerPawn sender) {
+	local NexgenClient client;
+  local NexgenACEExtClient xClient;
+  
+  client = control.getClient(sender); 
+  if(client != None) xClient = NexgenACEExtClient(client.getController(class'NexgenACEExtClient'.default.ctrlID));
+  if(xClient == None) return;
+
+  if(Left(Caps(mutateString), 3) == "ACE") {
+    xClient.updateACESettings();
+  }
+}
+
+/***************************************************************************************************
+ *
  *  Below are fixed functions for the Empty String TCP bug. Check out this article to read more
  *  about it: http://www.unrealadmin.org/forums/showthread.php?t=31280
  *
