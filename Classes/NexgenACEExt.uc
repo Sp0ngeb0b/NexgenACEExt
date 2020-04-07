@@ -1,3 +1,14 @@
+/*##################################################################################################
+##
+##  Nexgen ACE Extension version 1 for IACE 11
+##  Copyright (C) 2020 Patrick "Sp0ngeb0b" Peltzer
+##
+##  This program is free software; you can redistribute and/or modify
+##  it under the terms of the Open Unreal Mod License version 1.1.
+##
+##  Contact: spongebobut@yahoo.com | www.unrealriders.eu
+##
+##################################################################################################*/
 class NexgenACEExt extends NexgenExtendedPlugin;
 
 var IACEActor ACEActor;
@@ -148,6 +159,7 @@ function bool handleMsgCommand(PlayerPawn sender, string msg) {
 
 	return bIsCommand;
 }
+
 /***************************************************************************************************
  *
  *  Below are fixed functions for the Empty String TCP bug. Check out this article to read more
@@ -202,8 +214,6 @@ function setFixed(string dataContainerID, string varName, coerce string value, o
 	}
 }
 
-
-
 /***************************************************************************************************
  *
  *  $DESCRIPTION  Corrected version of the static formatCmdArg function in NexgenUtil. Empty strings
@@ -234,18 +244,16 @@ static function string formatCmdArgFixed(coerce string arg) {
 	return result;
 }
 
-
 /***************************************************************************************************
  *
  *  $DESCRIPTION  Default properties block.
  *
  **************************************************************************************************/
-
 defaultproperties
 {
      versionNum=100
      clientControllerClass=Class'NexgenACEExtClient'
      pluginName="Nexgen ACE Extension"
      pluginAuthor="Sp0ngeb0b"
-     pluginVersion="1.00"
+     pluginVersion="1"
 }

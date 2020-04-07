@@ -1,3 +1,14 @@
+/*##################################################################################################
+##
+##  Nexgen ACE Extension version 1 for IACE 11
+##  Copyright (C) 2020 Patrick "Sp0ngeb0b" Peltzer
+##
+##  This program is free software; you can redistribute and/or modify
+##  it under the terms of the Open Unreal Mod License version 1.1.
+##
+##  Contact: spongebobut@yahoo.com | www.unrealriders.eu
+##
+##################################################################################################*/
 class NexgenACEExtAdminPanel extends NexgenPanel;
 
 var NexgenSimplePlayerListBox playerList;
@@ -329,7 +340,6 @@ function playerEvent(int playerNum, string eventType, optional string args) {
  *  $DESCRIPTION  Default properties block.
  *
  **************************************************************************************************/
-
 defaultproperties
 {
      panelIdentifier="ACEAdminPanel"
