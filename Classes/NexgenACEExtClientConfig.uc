@@ -46,10 +46,10 @@ function setContent() {
 	splitRegionH(1, defaultComponentDist);
 	addComponent(class'NexgenDummyComponent');
   
-  if(int(client.player.Level.EngineVersion) < 469) {
+  //if(int(client.player.Level.EngineVersion) < 469) {
     splitRegionH(20, defaultComponentDist);
     soundFixInp = addCheckBox(TA_Left, "Activate Sound Fix", true);
-  }
+  //}
   splitRegionH(20, defaultComponentDist);
   perfModeInp = addCheckBox(TA_Left, "Activate High Performance Mode (framerate stabilization, only for high end pcs)", true);
   splitRegionH(20, defaultComponentDist);
@@ -236,5 +236,4 @@ function setValues() {
 defaultproperties
 {
      panelIdentifier="NexgenACEExtClientConfig"
-     PanelHeight=160.000000
 }

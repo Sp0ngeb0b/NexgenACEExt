@@ -49,6 +49,8 @@ const CMD_ACEINFO_NEW = "ACEN";        // ACE info initiation command.
 const CMD_ACEINFO_VAR = "ACEV";        // ACE info variable command.
 const CMD_ACEINFO_COMPLETE = "ACEC";   // Command that indicates that the  ACE initialization is complete.
 
+const clientConfigPanelHeight = 160.0; // Panel height for the client config panel. Is reduced for 469 clients.
+
 /***************************************************************************************************
  *
  *  $DESCRIPTION  Replication block.
@@ -87,11 +89,6 @@ simulated function setupControlPanel() {
   if (client.hasRight(client.R_Moderate)) {
 		ACEPanel = NexgenACEExtAdminPanel(client.mainWindow.mainPanel.addPanel("ACE Admin", class'NexgenACEExtAdminPanel', , "game"));
   }
-  
-  // Change client config in case of v469
-  if(int(Level.EngineVersion) >= 469) {
-    class'NexgenACEExtClientConfig'.default.panelHeight -= 20;
-  }
 }
 
 /***************************************************************************************************
@@ -129,8 +126,15 @@ simulated function Timer() {
     }
   } else {
     if(ACEConfig == none) {      
-      // Spawn client config
       foreach client.player.getEntryLevel().AllActors(class'IACEConfigFile', ACEConfig) {
+        // Change client config in case of v469
+        //if(int(Level.EngineVersion) >= 469) {
+        //  class'NexgenACEExtClientConfig'.default.panelHeight = clientConfigPanelHeight - 20.0;
+        //} else {
+          class'NexgenACEExtClientConfig'.default.panelHeight = clientConfigPanelHeight;
+        //}
+        
+        // Spawn client config
         client.addPluginClientConfigPanel(class'NexgenACEExtClientConfig');
         ACEClientConfigPanel = NexgenACEExtClientConfig(client.mainWindow.mainPanel.getPanel(class'NexgenACEExtClientConfig'.default.panelIdentifier));
         setTimer(0.0, false);
