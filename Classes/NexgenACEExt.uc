@@ -1,6 +1,6 @@
 /*##################################################################################################
 ##
-##  Nexgen ACE Extension version 1 for IACE 11
+##  Nexgen ACE Extension version 2 for IACE 11
 ##  Copyright (C) 2020 Patrick "Sp0ngeb0b" Peltzer
 ##
 ##  This program is free software; you can redistribute and/or modify
@@ -251,7 +251,7 @@ static function string formatCmdArgFixed(coerce string arg) {
  **************************************************************************************************/
 defaultproperties
 {
-     versionNum=100
+     versionNum=101
      clientControllerClass=Class'NexgenACEExtClient'
      pluginName="Nexgen ACE Extension"
      pluginAuthor="Sp0ngeb0b"
