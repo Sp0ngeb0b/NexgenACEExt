@@ -6,8 +6,8 @@
 ```
 ####################################################################################################
 ##
-##  Nexgen ACE Extension version 1 for IACEv11
-##  [NexgenACEExt11_1 - For Nexgen 112]
+##  Nexgen ACE Extension version 1 for IACEv12
+##  [NexgenACEExt12_1 - For Nexgen 112]
 ##
 ##  Version: 1
 ##  Release Date: April 2020
@@ -47,7 +47,7 @@ updates, only NexgenACEExt needs to be updated; other plugins will still functio
 ##
 ####################################################################################################
 Nexgen 1.12
-ACEv11 (any version using the IACEv11 file)
+ACEv12 (any version using the IACEv12 file)
 
 Optional Nexgen plugins profiting from NexgenACEExt:
 NexgenPlayerLookup
@@ -64,19 +64,19 @@ Note: This plugin replaces NexgenACEcsFix and NexgenABM10x!
  
  2. Deinstall any existing version of NexgenACEcsFix and NexgenABM10x.
 
- 3. Copy the NexgenACEExt11_1.u file to the system folder of your UT
+ 3. Copy the NexgenACEExt12_1.u file to the system folder of your UT
     server.
 
- 4. If your server is using redirect upload the NexgenACEExt11_1.u.uz file
+ 4. If your server is using redirect upload the NexgenACEExt12_1.u.uz file
     to the redirect server.
 
  5. Open your servers configuration file and add the following server package:
 
-      ServerPackages=NexgenACEExt11_1
+      ServerPackages=NexgenACEExt12_1
 
     Also add the following server actor:
 
-      ServerActors=NexgenACEExt11_1.NexgenACEExt
+      ServerActors=NexgenACEExt12_1.NexgenACEExt
 
     Note that the actor must be added AFTER the Nexgen controller server actor
     (ServerActors=Nexgen112.NexgenActor).
@@ -107,8 +107,8 @@ Nonetheless I would like you to follow these limitations:
 - If you recompile or edit this plugin, please leave the credits part of the readme intact, as well
   as the author line in the panel. Also note that you have to pay attention to the naming of your
   version to avoid missmatches. All official updates will be made ONLY by me and therefore counting up
-  version numbers are forbidden (e.g. NexgenACEExt11_2). Instead, add an unique suffix 
-  (e.g. NexgenACEExt11_2_X).
+  version numbers are forbidden (e.g. NexgenACEExt12_2). Instead, add an unique suffix 
+  (e.g. NexgenACEExt12_2_X).
   
 While working with Nexgen's 1.12 TCP functions, I encountered a far-reaching bug in Nexgen's core
 file which will prevent empty strings in an array to be transfered correctly. A detailed explanation
