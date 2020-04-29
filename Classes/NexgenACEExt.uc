@@ -264,5 +264,5 @@ defaultproperties
      clientControllerClass=Class'NexgenACEExtClient'
      pluginName="Nexgen ACE Extension"
      pluginAuthor="Sp0ngeb0b"
-     pluginVersion="2"
+     pluginVersion="2N"
 }
