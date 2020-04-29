@@ -9,6 +9,15 @@
 ##  Contact: spongebobut@yahoo.com | www.unrealriders.eu
 ##
 ##################################################################################################*/
+/*##################################################################################################
+##  Changelog:
+##
+##  Version 2:
+##  [Changed]  ace_login signal now waits for client's login procedure to complete (fixes bugs in
+##             NexgenABM and NexgenPlayerLookup in case of ACE HW information being available
+##             before the client is logged in)  
+##
+##################################################################################################*/
 class NexgenACEExt extends NexgenExtendedPlugin;
 
 var IACEActor ACEActor;
@@ -255,5 +264,5 @@ defaultproperties
      clientControllerClass=Class'NexgenACEExtClient'
      pluginName="Nexgen ACE Extension"
      pluginAuthor="Sp0ngeb0b"
-     pluginVersion="1"
+     pluginVersion="2"
 }
