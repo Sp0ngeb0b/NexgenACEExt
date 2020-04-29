@@ -1,12 +1,21 @@
 /*##################################################################################################
 ##
-##  Nexgen ACE Extension version 1 for IACE 12
+##  Nexgen ACE Extension version 2 for IACE 12
 ##  Copyright (C) 2020 Patrick "Sp0ngeb0b" Peltzer
 ##
 ##  This program is free software; you can redistribute and/or modify
 ##  it under the terms of the Open Unreal Mod License version 1.1.
 ##
 ##  Contact: spongebobut@yahoo.com | www.unrealriders.eu
+##
+##################################################################################################*/
+/*##################################################################################################
+##  Changelog:
+##
+##  Version 2:
+##  [Changed]  ace_login signal now waits for client's login procedure to complete (fixes bugs in
+##             NexgenABM and NexgenPlayerLookup in case of ACE HW information being available
+##             before the client is logged in)  
 ##
 ##################################################################################################*/
 class NexgenACEExt extends NexgenExtendedPlugin;
@@ -251,9 +260,9 @@ static function string formatCmdArgFixed(coerce string arg) {
  **************************************************************************************************/
 defaultproperties
 {
-     versionNum=100
+     versionNum=101
      clientControllerClass=Class'NexgenACEExtClient'
      pluginName="Nexgen ACE Extension"
      pluginAuthor="Sp0ngeb0b"
-     pluginVersion="1"
+     pluginVersion="2"
 }

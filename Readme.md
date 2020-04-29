@@ -6,10 +6,10 @@
 ```
 ####################################################################################################
 ##
-##  Nexgen ACE Extension version 1 for IACEv12
-##  [NexgenACEExt12_1 - For Nexgen 112]
+##  Nexgen ACE Extension version 2 for IACEv11
+##  [NexgenACEExt11_2 - For Nexgen 112]
 ##
-##  Version: 1
+##  Version: 2
 ##  Release Date: April 2020
 ##  Author: Patrick "Sp0ngeb0b" Peltzer
 ##  Contact: spongebobut@yahoo.com  -  www.unrealriders.eu
@@ -47,7 +47,7 @@ updates, only NexgenACEExt needs to be updated; other plugins will still functio
 ##
 ####################################################################################################
 Nexgen 1.12
-ACEv12 (any version using the IACEv12 file)
+ACEv11 (any version using the IACEv11 file)
 
 Optional Nexgen plugins profiting from NexgenACEExt:
 NexgenPlayerLookup
@@ -64,19 +64,19 @@ Note: This plugin replaces NexgenACEcsFix and NexgenABM10x!
  
  2. Deinstall any existing version of NexgenACEcsFix and NexgenABM10x.
 
- 3. Copy the NexgenACEExt12_1.u file to the system folder of your UT
+ 3. Copy the NexgenACEExt11_2.u file to the system folder of your UT
     server.
 
- 4. If your server is using redirect upload the NexgenACEExt12_1.u.uz file
+ 4. If your server is using redirect upload the NexgenACEExt11_2.u.uz file
     to the redirect server.
 
  5. Open your servers configuration file and add the following server package:
 
-      ServerPackages=NexgenACEExt12_1
+      ServerPackages=NexgenACEExt11_2
 
     Also add the following server actor:
 
-      ServerActors=NexgenACEExt12_1.NexgenACEExt
+      ServerActors=NexgenACEExt11_2.NexgenACEExt
 
     Note that the actor must be added AFTER the Nexgen controller server actor
     (ServerActors=Nexgen112.NexgenActor).
@@ -84,17 +84,45 @@ Note: This plugin replaces NexgenACEcsFix and NexgenABM10x!
  6. Restart your server.  
 
 ####################################################################################################
+##
+##  4. Upgrading from a previous version
+##
+####################################################################################################
+ 1. Make sure your server has been shut down.
+
+ 2. Delete NexgenACEExt11_x.u (where x is the previous version of the
+    Plugin) from your servers system folder and upload NexgenACEExt11_2.u
+    to the same folder.
+
+ 3. If your server is using redirect you may wish to delete
+    NexgenACEExt11_x.u.uz if it is no longer used by other servers.
+    Also upload NexgenACEExt11_2.u.uz to the redirect server.
+
+ 4. Goto the [Engine.GameEngine] section and edit the server package and
+    server actor lines for Nexgen. They should look like this:
+
+      ServerActors=NexgenACEExt11_2.NexgenACEExt
+
+      ServerPackages=NexgenACEExt11_2
+
+ 5. Save changes to the servers configuration file and close it.
+
+ 6. Restart your server.
+
+####################################################################################################
 ## 
-##  4. Credits and thanks
+##  5. Credits and thanks
 ##
 ####################################################################################################
 - Defrost for developing Nexgen (http://www.unrealadmin.org/forums/showthread.php?t=26835)
   
 - AnthraX for his priceless work on ACE (http://utgl.unrealadmin.org/ace/)
 
+- Krisuh for bug reporting
+
 ####################################################################################################
 ##
-##  5. Info for programmers
+##  6. Info for programmers
 ##
 ####################################################################################################
 This mod is open source. You can view/and or use the source code of it partially or entirely without
@@ -107,8 +135,8 @@ Nonetheless I would like you to follow these limitations:
 - If you recompile or edit this plugin, please leave the credits part of the readme intact, as well
   as the author line in the panel. Also note that you have to pay attention to the naming of your
   version to avoid missmatches. All official updates will be made ONLY by me and therefore counting up
-  version numbers are forbidden (e.g. NexgenACEExt12_2). Instead, add an unique suffix 
-  (e.g. NexgenACEExt12_2_X).
+  version numbers are forbidden (e.g. NexgenACEExt11_3). Instead, add an unique suffix 
+  (e.g. NexgenACEExt11_3_X).
   
 While working with Nexgen's 1.12 TCP functions, I encountered a far-reaching bug in Nexgen's core
 file which will prevent empty strings in an array to be transfered correctly. A detailed explanation
@@ -152,6 +180,11 @@ A: Generally, if you want a version of this plugin for a custom Nexgen version, 
 ##  7. Changelog
 ##
 ####################################################################################################
+- Version 2:
+  [Changed]  ace_login signal now waits for client's login procedure to complete (fixes bugs in
+             NexgenABM and NexgenPlayerLookup in case of ACE HW information being available
+             before the client is logged in)  
+
 - Version 1: Initial release.
 
 

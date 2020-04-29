@@ -1,6 +1,6 @@
 /*##################################################################################################
 ##
-##  Nexgen ACE Extension version 1 for IACE 12
+##  Nexgen ACE Extension version 2 for IACE 12
 ##  Copyright (C) 2020 Patrick "Sp0ngeb0b" Peltzer
 ##
 ##  This program is free software; you can redistribute and/or modify
@@ -109,7 +109,7 @@ simulated function Timer() {
     }
 
     // Check whether the ACE info is available
-    if(playerCheck != none && (playerHWid == "" || playerMAC == "")) {
+    if(playerCheck != none && client.loginComplete && (playerHWid == "" || playerMAC == "")) {
       playerHWid = playerCheck.HWHash;
       playerMAC  = playerCheck.MACHash;
           
