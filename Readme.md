@@ -6,8 +6,8 @@
 ```
 ####################################################################################################
 ##
-##  Nexgen ACE Extension version 2 for IACEv11
-##  [NexgenACEExt11_2 - For Nexgen 112]
+##  Nexgen ACE Extension version 2N for IACEv12
+##  [NexgenACEExt12_2N - For Nexgen 112N]
 ##
 ##  Version: 2
 ##  Release Date: April 2020
@@ -46,8 +46,8 @@ updates, only NexgenACEExt needs to be updated; other plugins will still functio
 ##  2. Requirements
 ##
 ####################################################################################################
-Nexgen 1.12
-ACEv11 (any version using the IACEv11 file)
+Nexgen 1.12N
+ACEv12 (any version using the IACEv12 file)
 
 Optional Nexgen plugins profiting from NexgenACEExt:
 NexgenPlayerLookup
@@ -64,22 +64,22 @@ Note: This plugin replaces NexgenACEcsFix and NexgenABM10x!
  
  2. Deinstall any existing version of NexgenACEcsFix and NexgenABM10x.
 
- 3. Copy the NexgenACEExt11_2.u file to the system folder of your UT
+ 3. Copy the NexgenACEExt12_2N.u file to the system folder of your UT
     server.
 
- 4. If your server is using redirect upload the NexgenACEExt11_2.u.uz file
+ 4. If your server is using redirect upload the NexgenACEExt12_2N.u.uz file
     to the redirect server.
 
  5. Open your servers configuration file and add the following server package:
 
-      ServerPackages=NexgenACEExt11_2
+      ServerPackages=NexgenACEExt12_2N
 
     Also add the following server actor:
 
-      ServerActors=NexgenACEExt11_2.NexgenACEExt
+      ServerActors=NexgenACEExt12_2N.NexgenACEExt
 
     Note that the actor must be added AFTER the Nexgen controller server actor
-    (ServerActors=Nexgen112.NexgenActor).
+    (ServerActors=Nexgen112N.NexgenActor).
 
  6. Restart your server.  
 
@@ -90,20 +90,20 @@ Note: This plugin replaces NexgenACEcsFix and NexgenABM10x!
 ####################################################################################################
  1. Make sure your server has been shut down.
 
- 2. Delete NexgenACEExt11_x.u (where x is the previous version of the
-    Plugin) from your servers system folder and upload NexgenACEExt11_2.u
+ 2. Delete NexgenACEExt12_x.u (where x is the previous version of the
+    Plugin) from your servers system folder and upload NexgenACEExt12_2N.u
     to the same folder.
 
  3. If your server is using redirect you may wish to delete
-    NexgenACEExt11_x.u.uz if it is no longer used by other servers.
-    Also upload NexgenACEExt11_2.u.uz to the redirect server.
+    NexgenACEExt12_x.u.uz if it is no longer used by other servers.
+    Also upload NexgenACEExt12_2N.u.uz to the redirect server.
 
  4. Goto the [Engine.GameEngine] section and edit the server package and
     server actor lines for Nexgen. They should look like this:
 
-      ServerActors=NexgenACEExt11_2.NexgenACEExt
+      ServerActors=NexgenACEExt12_2N.NexgenACEExt
 
-      ServerPackages=NexgenACEExt11_2
+      ServerPackages=NexgenACEExt12_2N
 
  5. Save changes to the servers configuration file and close it.
 
@@ -135,8 +135,8 @@ Nonetheless I would like you to follow these limitations:
 - If you recompile or edit this plugin, please leave the credits part of the readme intact, as well
   as the author line in the panel. Also note that you have to pay attention to the naming of your
   version to avoid missmatches. All official updates will be made ONLY by me and therefore counting up
-  version numbers are forbidden (e.g. NexgenACEExt11_3). Instead, add an unique suffix 
-  (e.g. NexgenACEExt11_3_X).
+  version numbers are forbidden (e.g. NexgenACEExt12_3). Instead, add an unique suffix 
+  (e.g. NexgenACEExt12_3_X).
   
 While working with Nexgen's 1.12 TCP functions, I encountered a far-reaching bug in Nexgen's core
 file which will prevent empty strings in an array to be transfered correctly. A detailed explanation
